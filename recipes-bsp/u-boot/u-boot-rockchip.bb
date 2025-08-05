@@ -14,7 +14,6 @@ SRCREV_rkbin = "${AUTOREV}"
 SRC_URI = " \
 	git://github.com/radxa/u-boot.git;protocol=https;branch=next-dev-buildroot; \
     git://github.com/radxa/rkbin.git;protocol=https;branch=develop-v2024.10;name=rkbin;destsuffix=rkbin; \
-    file://relocated-environment.cfg \
 "
 SRCREV_FORMAT = "default_rkbin"
 
@@ -29,10 +28,19 @@ UBOOT_MACHINE += "${@oe.utils.conditional('RK_BOOTMEDIA', 'spi-nor', 'rk-sfc.con
 UBOOT_MACHINE += "${@oe.utils.conditional('RK_BOOTMEDIA', 'emmc', 'rk-emmc.config', '', d)}"
 UBOOT_MACHINE += "${@oe.utils.conditional('RK_BOOTMEDIA', 'sdcard', 'rk-sfc.config', '', d)}"
 
+RK_ENV_SIZE="${@envimage.parsing.get_partition_size(RK_ENV_PART, "env")}"
+RK_ENV_OFFSET="${@envimage.parsing.get_partition_offset(RK_ENV_PART, "env")}"
+
 do_configure:prepend() {
     sed -i -e '/^select_tool/d' -e '/^clean/d' -e '/^\t*make/d' -e '/which python2/{n;n;s/exit 1/true/}' ${S}/make.sh 
 
     [ ! -e "${S}/.config" ] || make -C ${S} mrproper
+}
+
+do_configure:append() {
+    # patch env image size and offset
+    sed -i -e "s/^CONFIG_ENV_SIZE=.*$/CONFIG_ENV_SIZE=${RK_ENV_SIZE}/g" ${B}/.config
+    sed -i -e "s/^CONFIG_ENV_OFFSET=.*$/CONFIG_ENV_OFFSET=${RK_ENV_OFFSET}/g" ${B}/.config
 }
 
 RK_LOADER_BIN = "loader.bin"
@@ -51,8 +59,7 @@ do_compile:append() {
 	done
         
     local RK_BOOT_INI="../rkbin/RKBOOT/RV1106MINIALL.ini"
-    #TODO: RK_ROOTFS_PART_NUM should be parsed from RK_ENV_PART
-    local RK_ROOTFS_PART_NUM=5
+    local RK_ROOTFS_PART_NUM="${@envimage.parsing.get_partition_index(RK_ENV_PART, "rootfs")}"
 
     echo "blkdevparts=mmcblk1:${RK_ENV_PART}" > .${RK_ENV_TXT}
     echo "sys_bootargs=root=/dev/mmcblk1p${RK_ROOTFS_PART_NUM}" >> .${RK_ENV_TXT}
