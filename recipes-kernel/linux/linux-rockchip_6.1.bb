@@ -15,6 +15,9 @@ SRC_URI = " \
     file://luckfox_pico_max_defconfig \
 	file://rv1106g-luckfox-pico-max.dts \
 	file://rv1106-luckfox-pico-pro-max-ipc.dtsi \
+	file://luckfox_pico_mini_defconfig \
+	file://rv1103g-luckfox-pico-mini.dts \
+	file://rv1103-luckfox-pico-ipc.dtsi \
 "
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
@@ -23,6 +26,7 @@ KERNEL_VERSION_SANITY_SKIP = "1"
 LINUX_VERSION ?= "6.1"
 
 KERNEL_DEFCONFIG_luckfox-pico-max = "${WORKDIR}/luckfox_pico_max_defconfig"
+KERNEL_DEFCONFIG_luckfox-pico-mini = "${WORKDIR}/luckfox_pico_mini_defconfig"
 
 do_patch:append() {
 	for s in `grep -rIl python ${S}/scripts`; do
@@ -33,8 +37,10 @@ do_patch:append() {
 do_configure:append() {
 	cp ${WORKDIR}/rv1106g-luckfox-pico-max.dts ${S}/arch/arm/boot/dts
 	cp ${WORKDIR}/rv1106-luckfox-pico-pro-max-ipc.dtsi ${S}/arch/arm/boot/dts
+	cp ${WORKDIR}/rv1103g-luckfox-pico-mini.dts ${S}/arch/arm/boot/dts
+	cp ${WORKDIR}/rv1103-luckfox-pico-ipc.dtsi ${S}/arch/arm/boot/dts
 
-	echo "dtb-$(CONFIG_ARCH_ROCKCHIP) += rv1106g-luckfox-pico-max.dtb" >> ${S}/arch/arm/boot/dts/Makefile
+	echo "dtb-$(CONFIG_ARCH_ROCKCHIP) += $(KERNEL_DEVICETREE)" >> ${S}/arch/arm/boot/dts/Makefile
 }
 
 KERNEL_IMAGETYPES:append = \
