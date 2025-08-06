@@ -11,7 +11,7 @@ require recipes-kernel/linux/linux-yocto.inc
 
 SRCREV = "${AUTOREV}"
 SRC_URI = " \
-	git://github.com/radxa/kernel.git;protocol=https;branch=linux-6.1-stan-rkr4.1-buildroot; \
+	git://github.com/rockchip-linux/kernel.git;protocol=https;branch=develop-6.1; \
     file://luckfox_pico_max_defconfig \
 	file://rv1106g-luckfox-pico-max.dts \
 	file://rv1106-luckfox-pico-pro-max-ipc.dtsi \

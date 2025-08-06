@@ -54,34 +54,34 @@
 /**********USB**********/
 &usbdrd_dwc3 {
 	status = "okay";
-	dr_mode = "peripheral";
+	dr_mode = "host";
 };
 
 /**********SPI**********/
 /* SPI0_M0 */
 &spi0 {
-	status = "disabled";
+	status = "okay";
 	spidev@0 {
-		spi-max-frequency = <50000000>;
+		spi-max-frequency = <2000000>;
 	};
 };
 
 /**********I2C**********/
 /* I2C3_M1 */
 &i2c3 {
-	status = "disabled";
+	status = "okay";
 	clock-frequency = <100000>;
 };
 
 /**********UART**********/
 /* UART3_M1 */
 &uart3 {
-	status = "disabled";
+	status = "okay";
 };
 
 /* UART4_M1 */
 &uart4 {
-	status = "disabled";
+	status = "okay";
 };
 
 /**********PWM**********/
