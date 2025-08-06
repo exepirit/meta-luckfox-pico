@@ -2,26 +2,34 @@ This README file contains information on the contents of the meta-luckfox-pico l
 
 Please see the corresponding sections below for details.
 
+Supported Devices
+=================
+
+Currently supported devices are:
+- Luckfox Pico Max
+- Luckfox Pico Mini (A/B)
+
 Dependencies
 ============
 
-  URI: git://git.yoctoproject.org/poky
-  branch: scarthgap
+This layer depends on:
 
-  URI: git://git.openembedded.org/meta-openembedded
-  layer: meta-oe
-  branch: scarthgap
+    URI: git://git.yoctoproject.org/poky
+    branch: scarthgap
 
-  URI: https://github.com/pengutronix/meta-ptx.git
-  branch: scarthgap
+    URI: git://git.openembedded.org/meta-openembedded
+    layer: meta-oe
+    branch: scarthgap
+
+    URI: https://github.com/pengutronix/meta-ptx.git
+    branch: scarthgap
 
 Table of Contents
 =================
 
-  I. Adding the meta-luckfox-pico layer to your build
- II. Misc
- III. TODO
-
+1. Adding the meta-luckfox-pico layer to your build
+2. Misc
+3. TODO
 
 I. Adding the meta-luckfox-pico layer to your build
 =================================================
@@ -30,9 +38,6 @@ Run ```bitbake-layers add-layer meta-luckfox-pico```
 
 II. Misc
 ========
-
-Currently supported devices are
-- Luckfox Pico Max
 
 In ```local.conf``` add
 ```
@@ -52,6 +57,5 @@ Image will be located in ```/path/to/yocto/build/tmp/deploy/images/sdcard-MACHIN
 III. TODO
 =========
 
-replace genimage with wic
-
-do pre create image task to generate env.img
+- [ ] Replace genimage with wic
+- [ ] Do pre create image task to generate env.img
