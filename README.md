@@ -41,7 +41,9 @@ II. Misc
 
 In ```local.conf``` add
 ```
-IMAGE_FSTYPES = "ext4"
+IMAGE_FSTYPES = "ext4 wic"
+WKS_FILES ?= "luckfox-pico-max.wks.in"
+WKS_FILE_DEPENDS ?= "virtual/kernel virtual/bootloader"
 IMAGE_ROOTFS_SIZE = "1048576"
 
 IMAGE_INSTALL:append = " \

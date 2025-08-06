@@ -1,0 +1,6 @@
+bootloader --ptable gpt
+part --source rawcopy --sourceparams="file=env.img"
+part --source rawcopy --sourceparams="file=idblock.img" --offset 32K
+part --source rawcopy --sourceparams="file=uboot.img" --part-name uboot
+part --source rawcopy --sourceparams="file=boot.img" --part-name boot
+part / --source rootfs --fstype ext4 --part-name rootfs --align 8192
