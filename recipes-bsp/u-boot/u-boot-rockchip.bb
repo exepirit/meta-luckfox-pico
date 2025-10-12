@@ -62,7 +62,7 @@ do_compile:append() {
     local RK_ROOTFS_PART_NUM="${@envimage.parsing.get_partition_index(RK_ENV_PART, "rootfs")}"
 
     echo "blkdevparts=mmcblk1:${RK_ENV_PART}" > .${RK_ENV_TXT}
-    echo "sys_bootargs=root=/dev/mmcblk1p${RK_ROOTFS_PART_NUM}" >> .${RK_ENV_TXT}
+    echo "sys_bootargs=root=/dev/mmcblk1p${RK_ROOTFS_PART_NUM} rk_dma_heap_cma=${RK_BOOTARGS_CMA_SIZE}" >> .${RK_ENV_TXT}
 
     bbplain $(cat .${RK_ENV_TXT})
 
